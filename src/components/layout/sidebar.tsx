@@ -6,7 +6,7 @@ import {
   Home, Users, Shirt, Activity, 
   ShoppingCart, Calendar, Trophy, 
   LineChart, MessageSquare, Shield,
-  LogOut, Settings, Search, BarChart2
+  LogOut, Settings, Search, BarChart2, ArrowRightLeft
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
