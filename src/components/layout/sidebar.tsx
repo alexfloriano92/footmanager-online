@@ -6,7 +6,7 @@ import {
   Home, Users, Shirt, Activity, 
   ShoppingCart, Calendar, Trophy, 
   LineChart, MessageSquare, Shield,
-  LogOut, Settings
+  LogOut, Settings, Search, BarChart2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -21,8 +21,10 @@ export function Sidebar({ currentClub, currentCoach }: { currentClub: any, curre
     { name: "Elenco", href: "/squad", icon: Users },
     { name: "Táticas", href: "/tactics", icon: Shirt },
     { name: "Treino", href: "/training", icon: Activity },
-    { name: "Mercado", href: "/market", icon: ShoppingCart },
     { name: "Partidas", href: "/matches", icon: Calendar },
+    { name: "Observação", href: "/scout", icon: Search },
+    { name: "Ranking", href: "/ranking", icon: BarChart2 },
+    { name: "Mercado", href: "/market", icon: ShoppingCart },
     { name: "Ligas & Copas", href: "/competitions", icon: Trophy },
     { name: "Finanças", href: "/finances", icon: LineChart },
     { name: "Mensagens", href: "/messages", icon: MessageSquare },

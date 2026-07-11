@@ -4,8 +4,8 @@
 
 -- Enable necessary extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "pg_cron";
-CREATE EXTENSION IF NOT EXISTS "pg_stat_statements";
+-- pg_cron is managed by Supabase, skip if unavailable
+-- CREATE EXTENSION IF NOT EXISTS "pg_cron";
 
 -- ============================================================
 -- USERS (extends Supabase auth.users)
@@ -200,13 +200,14 @@ CREATE TABLE public.contracts (
   loan_return_date DATE,
   parent_club_id UUID REFERENCES public.clubs(id),
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE(player_id, is_active) WHERE is_active = TRUE
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE INDEX idx_contracts_player_id ON public.contracts(player_id);
 CREATE INDEX idx_contracts_club_id ON public.contracts(club_id);
 CREATE INDEX idx_contracts_end ON public.contracts(contract_end);
+-- Partial unique index: one active contract per player
+CREATE UNIQUE INDEX idx_contracts_one_active ON public.contracts(player_id) WHERE is_active = TRUE;
 
 -- ============================================================
 -- FINANCES
