@@ -117,15 +117,10 @@ export default function ScoutPage() {
     if (res.error) {
       alert(`Erro: ${res.error}`);
     } else {
-      alert(res.result || 'Proposta enviada!');
+      alert('Proposta enviada!');
       setSelectedTarget(null);
-      // Deduct local cash temp
-      if (res.status === 'pending') {
-         setMyCash(prev => prev - offerCash);
-      } else if (res.status === 'accepted') {
-         // Reload page or remove player from list
-         window.location.reload();
-      }
+      // Reload page to update cash and players
+      window.location.reload();
     }
   };
 
