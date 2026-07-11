@@ -56,7 +56,8 @@ export default function CompetitionsPage() {
       .single();
 
     if (!club?.league_id) return;
-    setLeagueName(club.leagues?.name || "Liga Global");
+    const leagueData = Array.isArray(club.leagues) ? club.leagues[0] : club.leagues;
+    setLeagueName((leagueData as any)?.name || "Liga Global");
 
     // 2. Fetch all clubs in the league
     const { data: leagueClubs } = await supabase
