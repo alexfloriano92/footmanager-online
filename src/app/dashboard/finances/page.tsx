@@ -1,15 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, DollarSign, ArrowUpRight, ArrowDownRight, PiggyBank } from "lucide-react";
+import { TrendingUp, TrendingDown, DollarSign, ArrowUpRight, ArrowDownRight, PiggyBank, Handshake, CheckCircle2, Loader2 } from "lucide-react";
+import { signSponsor, SPONSORS } from "@/app/actions/sponsors";
 
 export default function FinancesPage() {
   const [finances, setFinances] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [signedSponsors, setSignedSponsors] = useState<string[]>([]);
+  const [signingId, setSigningId] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const supabase = createClient();
 
@@ -45,6 +49,14 @@ export default function FinancesPage() {
         .limit(20);
 
       if (txs) setTransactions(txs);
+
+      // Get signed sponsors
+      const { data: sps } = await supabase
+        .from('club_sponsors')
+        .select('sponsor_id')
+        .eq('club_id', cid);
+
+      if (sps) setSignedSponsors(sps.map((s: any) => s.sponsor_id));
       setLoading(false);
     }
     load();
@@ -155,6 +167,106 @@ export default function FinancesPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Sponsors Section */}
+      <div>
+        <div className="flex items-center gap-3 mb-4">
+          <Handshake className="w-6 h-6 text-amber-400" />
+          <h2 className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-500">
+            Patrocinadores Disponíveis
+          </h2>
+        </div>
+        <p className="text-slate-400 text-sm mb-6">
+          Assine contratos de patrocínio para receber pagamentos iniciais e bônus por vitória.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {SPONSORS.map(sponsor => {
+            const isSigned = signedSponsors.includes(sponsor.id);
+            const isLoading = signingId === sponsor.id && isPending;
+            return (
+              <div
+                key={sponsor.id}
+                className={`relative rounded-xl border p-5 flex flex-col gap-3 transition-all duration-300 ${
+                  isSigned
+                    ? 'bg-emerald-950/30 border-emerald-700/50 shadow-[0_0_20px_rgba(52,211,153,0.08)]'
+                    : 'bg-slate-900 border-slate-700 hover:border-amber-500/50 hover:shadow-[0_0_20px_rgba(251,191,36,0.1)]'
+                }`}
+              >
+                {/* Top row */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">{sponsor.logo}</span>
+                    <div>
+                      <p className="font-bold text-white text-sm">{sponsor.name}</p>
+                      <Badge variant="outline" className="text-[10px] text-amber-400 border-amber-400/40 mt-0.5">
+                        {sponsor.category}
+                      </Badge>
+                    </div>
+                  </div>
+                  {isSigned && (
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                  )}
+                </div>
+
+                {/* Values */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-slate-800/60 rounded-lg p-2.5">
+                    <p className="text-[10px] text-slate-500 uppercase tracking-wider">Pagamento Inicial</p>
+                    <p className="text-emerald-400 font-black text-sm mt-0.5">
+                      {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(sponsor.upfront)}
+                    </p>
+                  </div>
+                  <div className="bg-slate-800/60 rounded-lg p-2.5">
+                    <p className="text-[10px] text-slate-500 uppercase tracking-wider">Bônus/Vitória</p>
+                    <p className={`font-black text-sm mt-0.5 ${sponsor.perWin > 0 ? 'text-amber-400' : 'text-slate-600'}`}>
+                      {sponsor.perWin > 0
+                        ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(sponsor.perWin)
+                        : '—'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Duration */}
+                <div className="flex items-center justify-between text-xs text-slate-500">
+                  <span>Duração: <span className="text-slate-300 font-medium">{sponsor.duration}</span></span>
+                </div>
+
+                {/* Action */}
+                {isSigned ? (
+                  <div className="mt-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-emerald-900/40 text-emerald-400 text-sm font-semibold">
+                    <CheckCircle2 className="w-4 h-4" />
+                    Contrato Assinado
+                  </div>
+                ) : (
+                  <button
+                    disabled={isLoading || isPending}
+                    onClick={() => {
+                      setSigningId(sponsor.id);
+                      startTransition(async () => {
+                        const result = await signSponsor(sponsor.id);
+                        if (result.success) {
+                          setSignedSponsors(prev => [...prev, sponsor.id]);
+                          if (result.newBalance !== undefined) {
+                            setFinances((prev: any) => prev ? { ...prev, cash_balance: result.newBalance } : prev);
+                          }
+                        }
+                        setSigningId(null);
+                      });
+                    }}
+                    className="mt-1 w-full flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold text-sm transition-all duration-200 bg-gradient-to-r from-amber-500 to-yellow-400 text-black hover:from-amber-400 hover:to-yellow-300 hover:shadow-[0_0_15px_rgba(251,191,36,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Assinando...</>
+                    ) : (
+                      <><Handshake className="w-4 h-4" /> Assinar Contrato</>
+                    )}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

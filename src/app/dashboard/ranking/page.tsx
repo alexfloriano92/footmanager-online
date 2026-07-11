@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Globe, User } from "lucide-react";
@@ -116,7 +117,14 @@ export default async function RankingPage() {
                           className="w-3 h-3 rounded-full shadow-sm" 
                           style={{ backgroundColor: club.primary_color }} 
                         />
-                        <span className={isMe ? 'text-amber-400' : 'text-white'}>{club.name}</span>
+                        <Link
+                          href={'/club/' + club.id}
+                          className={`hover:underline underline-offset-2 transition-colors ${
+                            isMe ? 'text-amber-400 hover:text-amber-300' : 'text-white hover:text-slate-300'
+                          }`}
+                        >
+                          {club.name}
+                        </Link>
                         {isMe && <Badge className="bg-amber-500 hover:bg-amber-600 text-black text-[10px] px-1.5 py-0">VOCÊ</Badge>}
                       </td>
                       <td className="px-6 py-4 text-center">
