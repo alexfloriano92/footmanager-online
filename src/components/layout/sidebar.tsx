@@ -23,6 +23,7 @@ export function Sidebar({ currentClub, currentCoach }: { currentClub: any, curre
     { name: "Treino", href: "/training", icon: Activity },
     { name: "Partidas", href: "/matches", icon: Calendar },
     { name: "Observação", href: "/scout", icon: Search },
+    { name: "Negociações", href: "/negotiations", icon: ArrowRightLeft },
     { name: "Ranking", href: "/ranking", icon: BarChart2 },
     { name: "Mercado", href: "/market", icon: ShoppingCart },
     { name: "Ligas & Copas", href: "/competitions", icon: Trophy },
