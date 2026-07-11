@@ -142,7 +142,7 @@ export default function TacticsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Select value={formation} onValueChange={setFormation}>
+              <Select value={formation} onValueChange={(v) => v && setFormation(v)}>
                 <SelectTrigger className="w-full bg-slate-950 border-slate-800">
                   <SelectValue placeholder="Selecione a formação" />
                 </SelectTrigger>

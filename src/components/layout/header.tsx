@@ -78,16 +78,14 @@ export function Header({ user, coach, club }: { user: AuthUser, coach: Coach, cl
 
       {/* Menu Usuário */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <Avatar className="h-8 w-8 border border-slate-700">
-              <AvatarImage src={coach?.photo_url || ""} alt={coach?.name || "Treinador"} />
-              <AvatarFallback className="bg-slate-800 text-slate-200">
-                {coach?.name?.charAt(0) || "T"}
-              </AvatarFallback>
-            </Avatar>
-            <span className="sr-only">Abrir menu</span>
-          </Button>
+        <DropdownMenuTrigger className="rounded-full outline-none">
+          <Avatar className="h-8 w-8 border border-slate-700 cursor-pointer">
+            <AvatarImage src={coach?.photo_url || ""} alt={coach?.name || "Treinador"} />
+            <AvatarFallback className="bg-slate-800 text-slate-200">
+              {coach?.name?.charAt(0) || "T"}
+            </AvatarFallback>
+          </Avatar>
+          <span className="sr-only">Abrir menu</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 bg-slate-900 border-slate-800 text-slate-200">
           <DropdownMenuLabel className="font-normal">
