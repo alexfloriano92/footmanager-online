@@ -17,18 +17,18 @@ export function Sidebar({ currentClub, currentCoach }: { currentClub: any, curre
 
   const navItems = [
     { name: "Painel", href: "/dashboard", icon: Home },
-    { name: "Clube", href: "/club", icon: Shield },
-    { name: "Elenco", href: "/squad", icon: Users },
-    { name: "Táticas", href: "/tactics", icon: Shirt },
-    { name: "Treino", href: "/training", icon: Activity },
-    { name: "Partidas", href: "/matches", icon: Calendar },
-    { name: "Observação", href: "/scout", icon: Search },
-    { name: "Negociações", href: "/negotiations", icon: ArrowRightLeft },
-    { name: "Ranking", href: "/ranking", icon: BarChart2 },
-    { name: "Mercado", href: "/market", icon: ShoppingCart },
-    { name: "Ligas & Copas", href: "/competitions", icon: Trophy },
-    { name: "Finanças", href: "/finances", icon: LineChart },
-    { name: "Mensagens", href: "/messages", icon: MessageSquare },
+    { name: "Clube", href: "/dashboard/club", icon: Shield },
+    { name: "Elenco", href: "/dashboard/squad", icon: Users },
+    { name: "Táticas", href: "/dashboard/tactics", icon: Shirt },
+    { name: "Treino", href: "/dashboard/training", icon: Activity },
+    { name: "Partidas", href: "/dashboard/matches", icon: Calendar },
+    { name: "Observação", href: "/dashboard/scout", icon: Search },
+    { name: "Negociações", href: "/dashboard/negotiations", icon: ArrowRightLeft },
+    { name: "Ranking", href: "/dashboard/ranking", icon: BarChart2 },
+    { name: "Mercado", href: "/dashboard/market", icon: ShoppingCart },
+    { name: "Ligas & Copas", href: "/dashboard/competitions", icon: Trophy },
+    { name: "Finanças", href: "/dashboard/finances", icon: LineChart },
+    { name: "Mensagens", href: "/dashboard/messages", icon: MessageSquare },
   ];
 
   return (
