@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Trophy, Users, TrendingUp, AlertCircle, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { DailyBonusCard } from "@/components/dashboard/daily-bonus";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -46,6 +47,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-6xl mx-auto">
+      <DailyBonusCard streak={coach?.login_streak || 0} lastBonus={coach?.last_login_bonus} />
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight">Bem-vindo, {coach?.name}!</h1>
         <p className="text-slate-400">Aqui está o resumo do seu clube para esta semana.</p>
