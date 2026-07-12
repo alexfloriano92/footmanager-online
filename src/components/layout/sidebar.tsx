@@ -6,7 +6,7 @@ import {
   Home, Users, Shirt, Activity, 
   ShoppingCart, Calendar, Trophy, 
   LineChart, MessageSquare, Shield,
-  LogOut, Settings, Search, BarChart2, ArrowRightLeft
+  LogOut, Settings, Search, BarChart2, ArrowRightLeft, Building2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -17,11 +17,11 @@ export function Sidebar({ currentClub, currentCoach }: { currentClub: any, curre
 
   const navItems = [
     { name: "Painel", href: "/dashboard", icon: Home },
-    { name: "Clube", href: "/dashboard/club", icon: Shield },
     { name: "Elenco", href: "/dashboard/squad", icon: Users },
     { name: "Táticas", href: "/dashboard/tactics", icon: Shirt },
     { name: "Treino", href: "/dashboard/training", icon: Activity },
-    { name: "Ligas", href: "/dashboard/competitions", icon: Trophy },
+    { name: "Estádio", href: "/dashboard/stadium", icon: Building2 },
+    { name: "Liga", href: "/dashboard/competitions", icon: Trophy },
     { name: "Copa Mata-Mata", href: "/dashboard/cup", icon: Trophy },
     { name: "Partidas", href: "/dashboard/matches", icon: Calendar },
     { name: "Observação", href: "/dashboard/scout", icon: Search },
@@ -29,8 +29,8 @@ export function Sidebar({ currentClub, currentCoach }: { currentClub: any, curre
     { name: "Ranking", href: "/dashboard/ranking", icon: BarChart2 },
     { name: "Mercado", href: "/dashboard/market", icon: ShoppingCart },
     { name: "Finanças", href: "/dashboard/finances", icon: LineChart },
-    { name: "Mensagens", href: "/dashboard/messages", icon: MessageSquare },
   ];
+
 
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-64 flex-col border-r border-slate-800 bg-slate-950 sm:flex">
