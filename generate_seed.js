@@ -135,4 +135,4 @@ WHERE NOT EXISTS (
 );
 `);
 
-fs.writeFileSync('seed_gen.sql', sql.join('\\n'), 'utf8');
+fs.writeFileSync('seed_gen.sql', sql.join('\n'), 'utf8');
