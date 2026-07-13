@@ -97,8 +97,8 @@ for (const [lid, linfo] of Object.entries(leagues)) {
     const country = linfo.country;
     linfo.clubs.forEach((club, idx) => {
         const [name, short, slug, city, cap, pres, cash] = club;
-        const cid = `c${lid.charAt(2)}00000-0000-0000-0000-${String(idx+1).padStart(12, '0')}`;
-        const sid = `b${lid.charAt(2)}00000-0000-0000-0000-${String(idx+1).padStart(12, '0')}`;
+        const cid = `c${lid.charAt(2)}000000-0000-0000-0000-${String(idx+1).padStart(12, '0')}`;
+        const sid = `b${lid.charAt(2)}000000-0000-0000-0000-${String(idx+1).padStart(12, '0')}`;
         
         sql.push(`INSERT INTO public.stadiums (id, name, city, capacity) VALUES ('${sid}', '${name} Stadium', '${city}', ${cap}) ON CONFLICT DO NOTHING;`);
         sql.push(`INSERT INTO public.clubs (id, name, short_name, slug, country, city, league_id, stadium_id, prestige, fan_loyalty, infrastructure, youth_academy, is_ai_controlled, primary_color, secondary_color, founded_year) VALUES ('${cid}', '${name}', '${short}', '${slug}', '${country}', '${city}', '${lid}', '${sid}', ${pres}, 80, 80, 80, true, '#1a1a2e', '#16213e', 1900) ON CONFLICT DO NOTHING;`);
